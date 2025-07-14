@@ -61,4 +61,7 @@ dependencies {
 
     // LiveData
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // DrawerLayout
+    implementation(libs.androidx.drawerlayout)
 }

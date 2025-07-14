@@ -6,24 +6,47 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/layout_drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/hearit_gray1">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Music Activity" />
+            android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_go_video"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="12dp"
-            android:background="@color/hearit_purple1"
-            android:text="video Activity로"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Music Activity"
+                android:textColor="@color/hearit_gray4" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_go_video"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/hearit_purple3"
+                android:text="video Activity로"
+                android:textColor="@color/hearit_gray4"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/in_view_drawer"
+            layout="@layout/view_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

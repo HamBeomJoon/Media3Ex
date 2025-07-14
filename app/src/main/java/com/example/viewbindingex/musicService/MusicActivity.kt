@@ -7,8 +7,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.viewbindingex.databinding.ActivityMusicBinding
 import com.example.viewbindingex.exoplayer.VideoActivity
 
@@ -16,9 +21,12 @@ class MusicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMusicBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityMusicBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initInsets(binding.clContainer)
+        initInsets(binding.inViewDrawer.drawer)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -36,9 +44,25 @@ class MusicActivity : AppCompatActivity() {
             startMusicService()
         }
 
+        binding.ivProfile.setOnClickListener {
+            if (!binding.layoutDrawer.isDrawerOpen(GravityCompat.END)) {
+                binding.layoutDrawer.openDrawer(GravityCompat.END)
+            } else {
+                binding.layoutDrawer.closeDrawer(GravityCompat.END)
+            }
+        }
+
         binding.btnGoVideo.setOnClickListener {
             val intent = Intent(this, VideoActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun initInsets(targetView: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(targetView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
     }
 
