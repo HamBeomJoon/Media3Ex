@@ -10,7 +10,6 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,7 +25,6 @@ class MusicActivity : AppCompatActivity() {
         binding = ActivityMusicBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initInsets(binding.clContainer)
-        initInsets(binding.inViewDrawer.drawer)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -42,14 +40,6 @@ class MusicActivity : AppCompatActivity() {
             }
         } else {
             startMusicService()
-        }
-
-        binding.ivProfile.setOnClickListener {
-            if (!binding.layoutDrawer.isDrawerOpen(GravityCompat.END)) {
-                binding.layoutDrawer.openDrawer(GravityCompat.END)
-            } else {
-                binding.layoutDrawer.closeDrawer(GravityCompat.END)
-            }
         }
 
         binding.btnGoVideo.setOnClickListener {
