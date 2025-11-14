@@ -18,7 +18,8 @@
             app:controller_layout_id="@layout/custom_audio_controls"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:show_buffering="when_playing" />
+            app:show_buffering="when_playing"
+            app:surface_type="none" />
 
         <Button
             android:id="@+id/btn_video"
