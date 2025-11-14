@@ -50,10 +50,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Videos
+    // Media3
+    implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
-    implementation(libs.androidx.media3.common)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
