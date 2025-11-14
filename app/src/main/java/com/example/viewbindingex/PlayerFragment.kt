@@ -35,10 +35,9 @@ class PlayerFragment : Fragment() {
             ExoPlayer.Builder(requireContext()).build().also {
                 binding.playerView.player = it
                 val mediaItem =
-                    MediaItem.fromUri("asset:///sample.mp4")
+                    MediaItem.fromUri("asset:///ComposeCoroutineScope.mp3")
                 it.setMediaItem(mediaItem)
                 it.prepare()
-                it.playWhenReady = true
             }
     }
 
