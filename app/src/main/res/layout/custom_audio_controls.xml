@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/hearit_black1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/exo_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hearit_gray4"
+                tools:text="00:00" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="♪ Audio Player"
+                android:textColor="@color/hearit_gray4" />
+
+            <TextView
+                android:id="@id/exo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hearit_gray4"
+                tools:text="05:21" />
+        </LinearLayout>
+
+        <androidx.media3.ui.DefaultTimeBar
+            android:id="@id/exo_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@id/exo_prev"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/exo_ic_skip_previous" />
+
+            <ImageButton
+                android:id="@id/exo_rew"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/exo_ic_rewind" />
+
+            <ImageButton
+                android:id="@id/exo_play_pause"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@id/exo_ffwd"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/exo_ic_forward" />
+
+            <ImageButton
+                android:id="@id/exo_next"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/exo_ic_skip_next" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
