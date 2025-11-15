@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import com.example.viewbindingex.databinding.FragmentVideoBinding
 
 @Suppress("ktlint:standard:backing-property-naming")
@@ -54,6 +55,28 @@ class VideoFragment : Fragment() {
 
                 prepare()
             }
+
+        binding.playerView.setControllerVisibilityListener(
+            PlayerView.ControllerVisibilityListener { visibility ->
+                val isVisible = visibility == View.VISIBLE
+
+                // 모든 컨트롤 요소들
+                binding.playerView.findViewById<View>(R.id.topGradient)?.visibility =
+                    if (isVisible) View.VISIBLE else View.GONE
+                binding.playerView.findViewById<View>(R.id.topControls)?.visibility =
+                    if (isVisible) View.VISIBLE else View.GONE
+                binding.playerView.findViewById<View>(R.id.centerControls)?.visibility =
+                    if (isVisible) View.VISIBLE else View.GONE
+                binding.playerView.findViewById<View>(R.id.bottomGradient)?.visibility =
+                    if (isVisible) View.VISIBLE else View.GONE
+                binding.playerView.findViewById<View>(R.id.bottomControls)?.visibility =
+                    if (isVisible) View.VISIBLE else View.GONE
+
+                // 얇은 seekbar는 컨트롤러 숨김 시에만 표시
+                binding.playerView.findViewById<View>(R.id.thinSeekbar)?.visibility =
+                    if (isVisible) View.GONE else View.VISIBLE
+            },
+        )
     }
 
     private fun setupCustomControls() {
@@ -168,14 +191,20 @@ class VideoFragment : Fragment() {
             }
 
             // 화면 세로 모드
-            act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             act.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        // PlayerView 원래 크기
+        // PlayerView 원래 크기로 복원
         val params = binding.playerView.layoutParams as ConstraintLayout.LayoutParams
         params.width = ConstraintLayout.LayoutParams.MATCH_PARENT
-        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+        params.height = 0 // WRAP_CONTENT가 아닌 0dp (match_constraint)
+        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+        params.bottomToTop = binding.btnAudio.id
+        params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+        params.topMargin = 0
+        params.bottomMargin = 0
         binding.playerView.layoutParams = params
 
         // 버튼 보이기
