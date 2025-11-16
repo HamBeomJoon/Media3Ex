@@ -1,4 +1,4 @@
-package com.example.viewbindingex.exoplayer
+package com.example.media3ex.exoplayer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

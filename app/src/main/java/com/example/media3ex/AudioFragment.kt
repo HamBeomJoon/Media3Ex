@@ -1,4 +1,4 @@
-package com.example.viewbindingex
+package com.example.media3ex
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.viewbindingex.databinding.FragmentAudioBinding
+import com.example.media3ex.databinding.FragmentAudioBinding
 
 @Suppress("ktlint:standard:backing-property-naming")
 class AudioFragment : Fragment() {

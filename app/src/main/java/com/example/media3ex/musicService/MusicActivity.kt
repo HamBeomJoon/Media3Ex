@@ -1,4 +1,4 @@
-package com.example.viewbindingex.musicService
+package com.example.media3ex.musicService
 
 import android.Manifest
 import android.content.Intent
@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.viewbindingex.databinding.ActivityMusicBinding
-import com.example.viewbindingex.exoplayer.VideoActivity
+import com.example.media3ex.databinding.ActivityMusicBinding
+import com.example.media3ex.exoplayer.VideoActivity
 
 class MusicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMusicBinding

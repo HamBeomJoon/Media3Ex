@@ -1,4 +1,4 @@
-package com.example.viewbindingex.exoplayer
+package com.example.media3ex.exoplayer
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.viewbindingex.R
-import com.example.viewbindingex.databinding.ActivityVideoBinding
-import com.example.viewbindingex.musicService.MusicActivity
+import com.example.media3ex.R
+import com.example.media3ex.databinding.ActivityVideoBinding
+import com.example.media3ex.musicService.MusicActivity
 
 class VideoActivity : AppCompatActivity() {
     private var player: ExoPlayer? = null
@@ -57,7 +57,7 @@ class VideoActivity : AppCompatActivity() {
 
             // 버튼 이미지 변경 (bindingAdapter 또는 직접)
             playButton?.setImageResource(
-                if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play,
+                if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play_purple,
             )
         }
 

@@ -1,4 +1,4 @@
-package com.example.viewbindingex
+package com.example.media3ex
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.viewbindingex.databinding.FragmentPlayerControlBinding
+import com.example.media3ex.databinding.FragmentPlayerControlBinding
 
 @Suppress("ktlint:standard:backing-property-naming")
 class PlayerControlFragment : Fragment() {

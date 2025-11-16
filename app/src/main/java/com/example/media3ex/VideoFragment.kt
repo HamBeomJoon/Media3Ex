@@ -1,4 +1,4 @@
-package com.example.viewbindingex
+package com.example.media3ex
 
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
@@ -17,7 +17,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.example.viewbindingex.databinding.FragmentVideoBinding
+import com.example.media3ex.databinding.FragmentVideoBinding
 
 @Suppress("ktlint:standard:backing-property-naming")
 class VideoFragment : Fragment() {

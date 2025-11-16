@@ -1,4 +1,4 @@
-package com.example.viewbindingex.musicService
+package com.example.media3ex.musicService
 
 import android.content.BroadcastReceiver
 import android.content.Context

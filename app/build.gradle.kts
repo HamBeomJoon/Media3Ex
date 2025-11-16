@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.viewbindingex"
+    namespace = "com.example.media3ex"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.viewbindingex"
+        applicationId = "com.example.media3ex"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

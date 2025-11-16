@@ -1,4 +1,4 @@
-package com.example.viewbindingex
+package com.example.media3ex
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

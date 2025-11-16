@@ -1,4 +1,4 @@
-package com.example.viewbindingex.musicService
+package com.example.media3ex.musicService
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -12,10 +12,10 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
-import com.example.viewbindingex.R
-import com.example.viewbindingex.musicService.MusicNotificationReceiver.Companion.ACTION_PAUSE
-import com.example.viewbindingex.musicService.MusicNotificationReceiver.Companion.ACTION_PLAY
-import com.example.viewbindingex.musicService.MusicNotificationReceiver.Companion.ACTION_STOP
+import com.example.media3ex.R
+import com.example.media3ex.musicService.MusicNotificationReceiver.Companion.ACTION_PAUSE
+import com.example.media3ex.musicService.MusicNotificationReceiver.Companion.ACTION_PLAY
+import com.example.media3ex.musicService.MusicNotificationReceiver.Companion.ACTION_STOP
 
 class MusicService : Service() {
     private lateinit var player: MediaPlayer
@@ -123,7 +123,7 @@ class MusicService : Service() {
                 setTextViewText(R.id.tv_desc, "EDM Deep House")
 
                 val playPauseIcon =
-                    if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
+                    if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play_purple
                 val action = if (player.isPlaying) ACTION_PAUSE else ACTION_PLAY
                 setImageViewResource(R.id.btn_play_pause, playPauseIcon)
                 setOnClickPendingIntent(R.id.btn_play_pause, getActionPendingIntent(action))

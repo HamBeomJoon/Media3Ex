@@ -1,4 +1,4 @@
-package com.example.viewbindingex
+package com.example.media3ex
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
