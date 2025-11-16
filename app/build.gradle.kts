@@ -36,7 +36,6 @@ android {
     }
     buildFeatures {
         dataBinding = true
-        viewBinding = true
     }
 }
 
@@ -64,4 +63,7 @@ dependencies {
 
     // DrawerLayout
     implementation(libs.androidx.drawerlayout)
+
+    // fragment
+    implementation(libs.androidx.fragment.ktx)
 }

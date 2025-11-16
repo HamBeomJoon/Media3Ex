@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.media3ex.databinding.FragmentAudioBinding
@@ -14,6 +15,7 @@ class AudioFragment : Fragment() {
     private var _binding: FragmentAudioBinding? = null
     private val binding get() = _binding!!
     private var player: ExoPlayer? = null
+    private val audioControlViewModel: AudioControlViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,6 +23,7 @@ class AudioFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAudioBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -41,12 +44,16 @@ class AudioFragment : Fragment() {
                 exoPlayer.prepare()
 
                 // CustomView에 플레이어 설정
-                binding.audioControlView.setPlayer(exoPlayer)
+                binding.viewAudioControl.setPlayer(
+                    exoPlayer,
+                    audioControlViewModel,
+                    viewLifecycleOwner,
+                )
             }
     }
 
     private fun setupNavigation() {
-        binding.btnVideo.setOnClickListener {
+        binding.btnGoVideo.setOnClickListener {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container_view, VideoFragment())
@@ -64,7 +71,7 @@ class AudioFragment : Fragment() {
         super.onDestroyView()
         player?.release()
         player = null
-        binding.audioControlView.release()
+        binding.viewAudioControl.release()
         _binding = null
     }
 }

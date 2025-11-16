@@ -20,7 +20,7 @@
             android:textColor="@color/hearit_gray4" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_go_video"
+            android:id="@+id/btn_go_video_activity"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/hearit_purple3"

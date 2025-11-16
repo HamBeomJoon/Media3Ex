@@ -42,7 +42,7 @@ class MusicActivity : AppCompatActivity() {
             startMusicService()
         }
 
-        binding.btnGoVideo.setOnClickListener {
+        binding.btnGoVideoActivity.setOnClickListener {
             val intent = Intent(this, VideoActivity::class.java)
             startActivity(intent)
         }
