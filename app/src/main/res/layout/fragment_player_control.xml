@@ -18,7 +18,7 @@
             android:id="@+id/playerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:controller_layout_id="@layout/custom_audio_controls"
+            app:controller_layout_id="@layout/custom_video_controls"
             app:layout_constraintBottom_toTopOf="@id/tvCurrentTrack"
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintTop_toTopOf="parent"

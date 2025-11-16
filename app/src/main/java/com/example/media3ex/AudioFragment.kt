@@ -19,7 +19,7 @@ class AudioFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentAudioBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -30,7 +30,22 @@ class AudioFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         initializePlayer()
+        setupNavigation()
+    }
 
+    private fun initializePlayer() {
+        player =
+            ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
+                val mediaItem = MediaItem.fromUri("asset:///ComposeCoroutineScope.mp3")
+                exoPlayer.setMediaItem(mediaItem)
+                exoPlayer.prepare()
+
+                // CustomView에 플레이어 설정
+                binding.audioControlView.setPlayer(exoPlayer)
+            }
+    }
+
+    private fun setupNavigation() {
         binding.btnVideo.setOnClickListener {
             parentFragmentManager
                 .beginTransaction()
@@ -40,20 +55,16 @@ class AudioFragment : Fragment() {
         }
     }
 
-    private fun initializePlayer() {
-        player =
-            ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
-                binding.playerView.player = exoPlayer
-                val mediaItem = MediaItem.fromUri("asset:///ComposeCoroutineScope.mp3")
-                exoPlayer.setMediaItem(mediaItem)
-                exoPlayer.prepare()
-            }
+    override fun onStop() {
+        super.onStop()
+        player?.pause()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         player?.release()
         player = null
+        binding.audioControlView.release()
         _binding = null
     }
 }

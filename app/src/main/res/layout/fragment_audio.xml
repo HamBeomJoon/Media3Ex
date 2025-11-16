@@ -11,15 +11,12 @@
         android:layout_height="match_parent"
         android:background="@color/hearit_black1">
 
-        <androidx.media3.ui.PlayerView
-            android:id="@+id/playerView"
+        <com.example.media3ex.AudioControlView
+            android:id="@+id/audioControlView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:controller_layout_id="@layout/custom_audio_controls"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:show_buffering="when_playing"
-            app:surface_type="none" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_video"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_video"

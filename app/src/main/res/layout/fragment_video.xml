@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:animation_enabled="true"
-            app:controller_layout_id="@layout/custom_audio_controls"
+            app:controller_layout_id="@layout/custom_video_controls"
             app:hide_on_touch="true"
             app:layout_constraintBottom_toTopOf="@id/btn_audio"
             app:layout_constraintEnd_toEndOf="parent"
