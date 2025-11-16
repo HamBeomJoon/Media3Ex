@@ -14,7 +14,6 @@
         android:background="@color/white"
         android:padding="16dp">
 
-        <!-- PlayerView -->
         <androidx.media3.ui.PlayerView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
@@ -27,7 +26,6 @@
             app:show_buffering="when_playing"
             app:use_controller="false" />
 
-        <!-- 프로그레스바 (버퍼링 표시) -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -39,7 +37,6 @@
             app:layout_constraintTop_toTopOf="@id/playerView"
             tools:visibility="visible" />
 
-        <!-- 현재 트랙 표시 -->
         <TextView
             android:id="@+id/tvCurrentTrack"
             android:layout_width="wrap_content"
@@ -65,7 +62,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCurrentTrack" />
 
-        <!-- Seek 컨트롤 그룹 -->
         <LinearLayout
             android:id="@+id/seekControlsLayout"
             android:layout_width="match_parent"
@@ -143,7 +139,6 @@
 
         </LinearLayout>
 
-        <!-- 재생 모드 컨트롤 -->
         <LinearLayout
             android:id="@+id/modeControlsLayout"
             android:layout_width="match_parent"
@@ -173,7 +168,6 @@
 
         </LinearLayout>
 
-        <!-- 추가 정보 표시 영역 -->
         <TextView
             android:id="@+id/tvPlayerInfo"
             android:layout_width="0dp"

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 상단 그라데이션 배경 -->
     <View
         android:id="@+id/topGradient"
         android:layout_width="match_parent"
@@ -13,7 +12,6 @@
         android:layout_gravity="top"
         android:background="@drawable/gradient_top_background" />
 
-    <!-- 상단 컨트롤 -->
     <LinearLayout
         android:id="@+id/topControls"
         android:layout_width="match_parent"
@@ -28,9 +26,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
+            android:contentDescription="@null"
             android:src="@drawable/exo_icon_previous"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
 
         <TextView
             android:id="@+id/tvVideoTitle"
@@ -52,22 +51,23 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Cast"
+            android:contentDescription="@null"
             android:src="@drawable/exo_icon_previous"
             android:visibility="gone"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
 
         <ImageButton
             android:id="@+id/btnSettings"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Settings"
+            android:contentDescription="@null"
             android:src="@drawable/exo_styled_controls_speed"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
     </LinearLayout>
 
-    <!-- 중앙 재생 컨트롤 -->
     <LinearLayout
         android:id="@+id/centerControls"
         android:layout_width="wrap_content"
@@ -84,7 +84,8 @@
             android:background="@drawable/center_control_background"
             android:contentDescription="@string/exo_controls_rewind_description"
             android:src="@drawable/exo_ic_rewind"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
 
         <ImageButton
             android:id="@id/exo_play_pause"
@@ -93,7 +94,8 @@
             android:background="@drawable/center_control_background"
             android:contentDescription="@string/exo_controls_play_description"
             android:src="@drawable/ic_play"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
 
         <ImageButton
             android:id="@id/exo_ffwd"
@@ -103,14 +105,15 @@
             android:background="@drawable/center_control_background"
             android:contentDescription="@string/exo_controls_fastforward_description"
             android:src="@drawable/exo_ic_forward"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="PrivateResource" />
     </LinearLayout>
 
     <!-- 하단 그라데이션 배경 -->
     <View
         android:id="@+id/bottomGradient"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:background="@drawable/gradient_bottom_background" />
 
@@ -138,14 +141,12 @@
             app:touch_target_height="26dp"
             app:unplayed_color="#40FFFFFF" />
 
-        <!-- 시간 및 하단 버튼들 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- 시간 -->
             <TextView
                 android:id="@id/exo_position"
                 android:layout_width="wrap_content"
@@ -176,16 +177,16 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <!-- 하단 오른쪽 버튼들 -->
             <ImageButton
                 android:id="@+id/btnPlaybackSpeed"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Playback speed"
+                android:contentDescription="@null"
                 android:src="@drawable/exo_styled_controls_speed"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="PrivateResource" />
 
             <ImageButton
                 android:id="@+id/btnRepeatMode"
@@ -193,18 +194,20 @@
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Repeat mode"
+                android:contentDescription="@null"
                 android:src="@drawable/exo_styled_controls_repeat_off"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="PrivateResource" />
 
             <ImageButton
                 android:id="@+id/btnFullscreen"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Fullscreen"
+                android:contentDescription="@null"
                 android:src="@drawable/exo_styled_controls_fullscreen_enter"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="PrivateResource" />
         </LinearLayout>
 
     </LinearLayout>
@@ -215,7 +218,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
         app:bar_height="2dp"
         app:played_color="@color/hearit_purple1"
         app:scrubber_disabled_size="0dp"
