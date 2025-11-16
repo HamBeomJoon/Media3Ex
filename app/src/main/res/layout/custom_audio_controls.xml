@@ -92,6 +92,7 @@
             android:layout_height="72dp"
             android:background="@drawable/center_control_background"
             android:contentDescription="@string/exo_controls_play_description"
+            android:src="@drawable/ic_play"
             app:tint="@color/white" />
 
         <ImageButton
