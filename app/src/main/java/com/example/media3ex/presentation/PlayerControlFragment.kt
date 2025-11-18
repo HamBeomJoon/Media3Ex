@@ -1,5 +1,6 @@
-package com.example.media3ex
+package com.example.media3ex.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -76,6 +77,7 @@ class PlayerControlFragment : Fragment() {
         Log.d("Player", "Audio Attributes: ${player?.audioAttributes}")
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupControls() {
         // playWhenReady 제어
         binding.btnPlayPause.setOnClickListener {

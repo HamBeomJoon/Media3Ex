@@ -6,7 +6,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
-import com.example.media3ex.MainActivity
+import com.example.media3ex.presentation.MainActivity
 
 class AudioPlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null

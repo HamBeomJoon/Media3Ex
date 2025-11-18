@@ -1,4 +1,4 @@
-package com.example.media3ex.video
+package com.example.media3ex.presentation.video
 
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
@@ -18,8 +18,8 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.example.media3ex.R
-import com.example.media3ex.audio.AudioFragment
 import com.example.media3ex.databinding.FragmentVideoBinding
+import com.example.media3ex.presentation.audio.AudioFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("ktlint:standard:backing-property-naming")

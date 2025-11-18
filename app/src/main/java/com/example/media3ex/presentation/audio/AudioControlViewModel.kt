@@ -1,4 +1,4 @@
-package com.example.media3ex.audio
+package com.example.media3ex.presentation.audio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,11 +16,11 @@ import javax.inject.Inject
 class AudioControlViewModel
     @Inject
     constructor(
-        private val initializeAudioPlayerUseCase: InitializeAudioPlayerUseCase,
-        private val playAudioUseCase: PlayAudioUseCase,
-        private val pauseAudioUseCase: PauseAudioUseCase,
-        private val setPlaybackSpeedUseCase: SetPlaybackSpeedUseCase,
         private val audioPlayerRepository: AudioPlayerRepository,
+        private val initializeAudioPlayerUseCase: InitializeAudioPlayerUseCase,
+        private val pauseAudioUseCase: PauseAudioUseCase,
+        private val playAudioUseCase: PlayAudioUseCase,
+        private val setPlaybackSpeedUseCase: SetPlaybackSpeedUseCase,
     ) : ViewModel() {
         private val _isPlaying = MutableLiveData(false)
         val isPlaying: LiveData<Boolean> = _isPlaying

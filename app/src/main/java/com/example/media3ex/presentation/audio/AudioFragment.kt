@@ -1,4 +1,4 @@
-package com.example.media3ex.audio
+package com.example.media3ex.presentation.audio
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.media3ex.R
 import com.example.media3ex.databinding.FragmentAudioBinding
-import com.example.media3ex.video.VideoFragment
+import com.example.media3ex.presentation.video.VideoFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("ktlint:standard:backing-property-naming")
