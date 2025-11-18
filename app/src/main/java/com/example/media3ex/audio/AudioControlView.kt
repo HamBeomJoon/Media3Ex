@@ -1,4 +1,4 @@
-package com.example.media3ex
+package com.example.media3ex.audio
 
 import android.app.AlertDialog
 import android.content.Context
@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.example.media3ex.R
 
 class AudioControlView
     @JvmOverloads

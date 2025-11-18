@@ -1,4 +1,4 @@
-package com.example.media3ex
+package com.example.media3ex.audio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.media3ex
+package com.example.media3ex.audio
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.example.media3ex.R
 import com.example.media3ex.databinding.FragmentAudioBinding
+import com.example.media3ex.video.VideoFragment
 
 @Suppress("ktlint:standard:backing-property-naming")
 class AudioFragment : Fragment() {
