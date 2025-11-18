@@ -37,6 +37,12 @@ class AudioControlViewModel : ViewModel() {
                         Player.STATE_ENDED -> {
                             _isPlaying.value = false
                         }
+
+                        Player.STATE_BUFFERING -> {
+                        }
+
+                        Player.STATE_IDLE -> {
+                        }
                     }
                 }
             },
