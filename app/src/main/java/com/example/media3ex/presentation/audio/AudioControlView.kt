@@ -36,7 +36,10 @@ class AudioControlView
         fun setPlayer(player: Player) {
             this.player = player
             playerView.player = player
+
             playerView.controllerShowTimeoutMs = 0
+            playerView.controllerHideOnTouch = false // 터치해도 숨기지 않음
+            playerView.controllerAutoShow = true
 
             playerView.post {
                 setupCustomControls()

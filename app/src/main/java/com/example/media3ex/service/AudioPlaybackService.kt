@@ -72,7 +72,6 @@ class AudioPlaybackService : MediaSessionService() {
                 .setSessionActivity(sessionActivityPendingIntent)
                 .build()
 
-        // Player 리스너 추가 - 메타데이터 변경 감지
         player.addListener(
             object : Player.Listener {
                 override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
