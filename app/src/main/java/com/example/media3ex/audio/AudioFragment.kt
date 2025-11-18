@@ -16,8 +16,8 @@ import com.example.media3ex.video.VideoFragment
 class AudioFragment : Fragment() {
     private var _binding: FragmentAudioBinding? = null
     private val binding get() = _binding!!
-    private var player: ExoPlayer? = null
     private val audioControlViewModel: AudioControlViewModel by viewModels()
+    private var player: ExoPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,12 +46,36 @@ class AudioFragment : Fragment() {
                 exoPlayer.prepare()
 
                 // CustomView에 플레이어 설정
-                binding.viewAudioControl.setPlayer(
-                    exoPlayer,
-                    audioControlViewModel,
-                    viewLifecycleOwner,
-                )
+                binding.viewAudioControl.setPlayer(exoPlayer)
+                setupPlayerCallbacks(exoPlayer)
+                observeViewModel()
             }
+    }
+
+    private fun setupPlayerCallbacks(exoPlayer: ExoPlayer) {
+        binding.viewAudioControl.onPlayPauseClick = {
+            if (exoPlayer.isPlaying) {
+                exoPlayer.pause()
+            } else {
+                exoPlayer.play()
+            }
+            audioControlViewModel.updatePlayingState(exoPlayer.isPlaying)
+        }
+
+        binding.viewAudioControl.onSpeedChangeClick = { speed, index ->
+            exoPlayer.setPlaybackSpeed(speed)
+            audioControlViewModel.updatePlaybackSpeed("${speed}x", index)
+        }
+    }
+
+    private fun observeViewModel() {
+        audioControlViewModel.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
+            binding.viewAudioControl.updatePlayPauseButton(isPlaying)
+        }
+
+        audioControlViewModel.playbackSpeed.observe(viewLifecycleOwner) { speed ->
+            binding.viewAudioControl.updateSpeedText(speed)
+        }
     }
 
     private fun setupNavigation() {

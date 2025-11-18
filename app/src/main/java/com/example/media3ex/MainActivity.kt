@@ -15,9 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        // SafeArea + Insets 처리
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragment_container_view)) { view, insets ->
-            // 상태바, 내비게이션바에 맞춰 패딩 적용
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
