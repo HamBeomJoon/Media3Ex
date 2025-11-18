@@ -6,9 +6,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -91,7 +91,7 @@ class AudioPlaybackService : MediaSessionService() {
 
     @OptIn(UnstableApi::class)
     private fun updateNotification() {
-        val notification = createNotification()
+        val notification = createCustomNotification()
         notificationManager.notify(NOTIFICATION_ID, notification)
 
         // 포그라운드 서비스로 실행
@@ -101,34 +101,99 @@ class AudioPlaybackService : MediaSessionService() {
     }
 
     @OptIn(UnstableApi::class)
-    private fun createNotification(): Notification {
+    private fun createCustomNotification(): Notification {
         val mediaMetadata = player.currentMediaItem?.mediaMetadata
 
         // 제목과 아티스트 가져오기
         val title = mediaMetadata?.title?.toString() ?: "재생 중"
         val artist = mediaMetadata?.artist?.toString() ?: "알 수 없는 아티스트"
 
-        return NotificationCompat
-            .Builder(this, CHANNEL_ID)
-            .setContentTitle(title)
-            .setContentText(artist)
-            .setSmallIcon(R.drawable.ic_music_note)
-            .setLargeIcon(
-                mediaMetadata?.artworkData?.let {
-                    android.graphics.BitmapFactory.decodeByteArray(it, 0, it.size)
-                },
-            ) // 앨범 아트
-            .setColor(ContextCompat.getColor(this, R.color.hearit_purple1)) // 배경색
-            .setColorized(true) // 배경색 활성화
-            .setStyle(
-                MediaStyleNotificationHelper
-                    .MediaStyle(mediaSession!!)
-                    .setShowActionsInCompactView(0, 1, 2),
-            ).setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setOnlyAlertOnce(true)
-            .setContentIntent(mediaSession?.sessionActivity)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
+        // RemoteViews 생성
+        val notificationLayout = RemoteViews(packageName, R.layout.notification_audio_player)
+
+        // 제목과 아티스트 설정
+        notificationLayout.setTextViewText(R.id.notification_title, title)
+        notificationLayout.setTextViewText(R.id.notification_artist, artist)
+
+        // 재생/일시정지 버튼 아이콘 설정
+        val playPauseIcon =
+            if (player.isPlaying) {
+                R.drawable.ic_pause
+            } else {
+                R.drawable.ic_play
+            }
+        notificationLayout.setImageViewResource(R.id.btn_play_pause, playPauseIcon)
+
+        // 버튼 클릭 이벤트 설정
+        notificationLayout.setOnClickPendingIntent(
+            R.id.btn_play_pause,
+            createPendingIntent(ACTION_PLAY_PAUSE),
+        )
+        notificationLayout.setOnClickPendingIntent(
+            R.id.btn_previous,
+            createPendingIntent(ACTION_PREVIOUS),
+        )
+        notificationLayout.setOnClickPendingIntent(
+            R.id.btn_next,
+            createPendingIntent(ACTION_NEXT),
+        )
+
+        val builder =
+            NotificationCompat
+                .Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_music_note)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOnlyAlertOnce(true)
+                .setContentIntent(mediaSession?.sessionActivity)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setOngoing(player.isPlaying)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            builder
+                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(notificationLayout)
+                .setCustomBigContentView(notificationLayout)
+        } else {
+            builder
+                .setContentTitle(title)
+                .setContentText(artist)
+                .setStyle(MediaStyleNotificationHelper.MediaStyle(mediaSession!!))
+        }
+
+        return builder.build()
+    }
+
+    private fun createPendingIntent(action: String): PendingIntent {
+        val intent =
+            Intent(this, AudioPlaybackService::class.java).apply {
+                this.action = action
+            }
+        return PendingIntent.getService(
+            this,
+            action.hashCode(),
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+    }
+
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
+        when (intent?.action) {
+            ACTION_PLAY_PAUSE -> {
+                if (player.isPlaying) {
+                    player.pause()
+                } else {
+                    player.play()
+                }
+            }
+
+            ACTION_PREVIOUS -> player.seekToPrevious()
+            ACTION_NEXT -> player.seekToNext()
+        }
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
@@ -154,5 +219,8 @@ class AudioPlaybackService : MediaSessionService() {
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "audio_playback_channel"
         private const val CHANNEL_NAME = "Audio Playback"
+        const val ACTION_PLAY_PAUSE = "action_play_pause"
+        const val ACTION_PREVIOUS = "action_previous"
+        const val ACTION_NEXT = "action_next"
     }
 }
