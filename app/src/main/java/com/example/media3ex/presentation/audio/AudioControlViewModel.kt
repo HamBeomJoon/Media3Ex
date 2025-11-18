@@ -39,9 +39,12 @@ class AudioControlViewModel
 
         fun initialize(
             mediaUri: String,
+            title: String,
+            artist: String,
+            artworkUri: String? = null,
             onReady: (Player?) -> Unit,
         ) {
-            initializeAudioPlayerUseCase(mediaUri) { player ->
+            initializeAudioPlayerUseCase(mediaUri, title, artist, artworkUri) { player ->
                 audioPlayerRepository.addListener(playerListener)
                 onReady(player)
             }

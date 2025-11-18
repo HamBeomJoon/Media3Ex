@@ -39,7 +39,12 @@ class AudioFragment : Fragment() {
     }
 
     private fun initializePlayer() {
-        audioControlViewModel.initialize("asset:///ComposeCoroutineScope.mp3") { player ->
+        audioControlViewModel.initialize(
+            mediaUri = "asset:///ComposeCoroutineScope.mp3",
+            title = "Compose Coroutine Scope",
+            artist = "Android Developer",
+            artworkUri = null,
+        ) { player ->
             player?.let {
                 binding.viewAudioControl.setPlayer(it)
                 setupViewCallbacks()

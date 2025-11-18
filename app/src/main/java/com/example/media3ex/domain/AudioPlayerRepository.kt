@@ -5,7 +5,12 @@ import androidx.media3.common.Player
 interface AudioPlayerRepository {
     fun initialize(onConnected: (Player) -> Unit)
 
-    fun setMediaItem(uri: String)
+    fun setMediaItem(
+        uri: String,
+        title: String,
+        artist: String,
+        artworkUri: String? = null,
+    )
 
     fun play()
 

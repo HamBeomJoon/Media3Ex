@@ -2,7 +2,9 @@ package com.example.media3ex.data
 
 import android.content.ComponentName
 import android.content.Context
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
@@ -40,8 +42,28 @@ class AudioPlayerRepositoryImpl
             )
         }
 
-        override fun setMediaItem(uri: String) {
-            val mediaItem = MediaItem.fromUri(uri)
+        override fun setMediaItem(
+            uri: String,
+            title: String,
+            artist: String,
+            artworkUri: String?,
+        ) {
+            val metadata =
+                MediaMetadata
+                    .Builder()
+                    .setTitle(title)
+                    .setArtist(artist)
+                    .apply {
+                        artworkUri?.let { setArtworkUri(it.toUri()) }
+                    }.build()
+
+            val mediaItem =
+                MediaItem
+                    .Builder()
+                    .setUri(uri)
+                    .setMediaMetadata(metadata)
+                    .build()
+
             mediaController?.setMediaItem(mediaItem)
             mediaController?.prepare()
         }
