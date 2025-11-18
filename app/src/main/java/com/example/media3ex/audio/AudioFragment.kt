@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
 import com.example.media3ex.R
 import com.example.media3ex.databinding.FragmentAudioBinding
 import com.example.media3ex.video.VideoFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("ktlint:standard:backing-property-naming")
+@AndroidEntryPoint
 class AudioFragment : Fragment() {
     private var _binding: FragmentAudioBinding? = null
     private val binding get() = _binding!!
     private val audioControlViewModel: AudioControlViewModel by viewModels()
-    private var player: ExoPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,35 +35,25 @@ class AudioFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initializePlayer()
         setupNavigation()
+        observeViewModel()
     }
 
     private fun initializePlayer() {
-        player =
-            ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
-                val mediaItem = MediaItem.fromUri("asset:///ComposeCoroutineScope.mp3")
-                exoPlayer.setMediaItem(mediaItem)
-                exoPlayer.prepare()
-
-                // CustomView에 플레이어 설정
-                binding.viewAudioControl.setPlayer(exoPlayer)
-                setupPlayerCallbacks(exoPlayer)
-                observeViewModel()
+        audioControlViewModel.initialize("asset:///ComposeCoroutineScope.mp3") { player ->
+            player?.let {
+                binding.viewAudioControl.setPlayer(it)
+                setupViewCallbacks()
             }
+        }
     }
 
-    private fun setupPlayerCallbacks(exoPlayer: ExoPlayer) {
+    private fun setupViewCallbacks() {
         binding.viewAudioControl.onPlayPauseClick = {
-            if (exoPlayer.isPlaying) {
-                exoPlayer.pause()
-            } else {
-                exoPlayer.play()
-            }
-            audioControlViewModel.updatePlayingState(exoPlayer.isPlaying)
+            audioControlViewModel.togglePlayPause()
         }
 
         binding.viewAudioControl.onSpeedChangeClick = { speed, index ->
-            exoPlayer.setPlaybackSpeed(speed)
-            audioControlViewModel.updatePlaybackSpeed("${speed}x", index)
+            audioControlViewModel.setPlaybackSpeed(speed, index)
         }
     }
 
@@ -88,15 +77,8 @@ class AudioFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        player?.pause()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        player?.release()
-        player = null
         binding.viewAudioControl.release()
         _binding = null
     }

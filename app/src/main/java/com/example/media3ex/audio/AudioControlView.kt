@@ -9,8 +9,8 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.OptIn
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.example.media3ex.R
 
@@ -22,7 +22,7 @@ class AudioControlView
         defStyleAttr: Int = 0,
     ) : ConstraintLayout(context, attrs, defStyleAttr) {
         private val playerView: PlayerView
-        private var player: ExoPlayer? = null
+        private var player: Player? = null
         var onPlayPauseClick: (() -> Unit)? = null
         var onSpeedChangeClick: ((Float, Int) -> Unit)? = null
         var currentSpeedIndex: Int = 1
@@ -33,9 +33,9 @@ class AudioControlView
         }
 
         @OptIn(UnstableApi::class)
-        fun setPlayer(exoPlayer: ExoPlayer) {
-            this.player = exoPlayer
-            playerView.player = exoPlayer
+        fun setPlayer(player: Player) {
+            this.player = player
+            playerView.player = player
             playerView.controllerShowTimeoutMs = 0
 
             playerView.post {

@@ -3,23 +3,75 @@ package com.example.media3ex.audio
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.media3.common.Player
+import com.example.media3ex.domain.AudioPlayerRepository
+import com.example.media3ex.domain.InitializeAudioPlayerUseCase
+import com.example.media3ex.domain.PauseAudioUseCase
+import com.example.media3ex.domain.PlayAudioUseCase
+import com.example.media3ex.domain.SetPlaybackSpeedUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-// AudioControlViewModel: UI 상태만 관리
-class AudioControlViewModel : ViewModel() {
-    private val _isPlaying = MutableLiveData(false)
-    val isPlaying: LiveData<Boolean> = _isPlaying
+@HiltViewModel
+class AudioControlViewModel
+    @Inject
+    constructor(
+        private val initializeAudioPlayerUseCase: InitializeAudioPlayerUseCase,
+        private val playAudioUseCase: PlayAudioUseCase,
+        private val pauseAudioUseCase: PauseAudioUseCase,
+        private val setPlaybackSpeedUseCase: SetPlaybackSpeedUseCase,
+        private val audioPlayerRepository: AudioPlayerRepository,
+    ) : ViewModel() {
+        private val _isPlaying = MutableLiveData(false)
+        val isPlaying: LiveData<Boolean> = _isPlaying
 
-    private val _playbackSpeed = MutableLiveData("1.0x")
-    val playbackSpeed: LiveData<String> = _playbackSpeed
+        private val _playbackSpeed = MutableLiveData("1.0x")
+        val playbackSpeed: LiveData<String> = _playbackSpeed
 
-    fun updatePlayingState(isPlaying: Boolean) {
-        _isPlaying.value = isPlaying
+        private val _currentSpeedIndex = MutableLiveData(1)
+
+        private val playerListener =
+            object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    _isPlaying.postValue(isPlaying)
+                }
+            }
+
+        fun initialize(
+            mediaUri: String,
+            onReady: (Player?) -> Unit,
+        ) {
+            initializeAudioPlayerUseCase(mediaUri) { player ->
+                audioPlayerRepository.addListener(playerListener)
+                onReady(player)
+            }
+        }
+
+        fun togglePlayPause() {
+            val player = audioPlayerRepository.getPlayer() ?: return
+            if (player.isPlaying) {
+                pauseAudioUseCase()
+            } else {
+                playAudioUseCase()
+            }
+        }
+
+        fun setPlaybackSpeed(
+            speed: Float,
+            index: Int,
+        ) {
+            setPlaybackSpeedUseCase(speed)
+            _playbackSpeed.value = "${speed}x"
+            _currentSpeedIndex.value = index
+        }
+
+        fun getCurrentSpeedIndex(): Int = _currentSpeedIndex.value ?: 1
+
+        fun getPlayer(): Player? = audioPlayerRepository.getPlayer()
+
+        override fun onCleared() {
+            audioPlayerRepository.removeListener(playerListener)
+            audioPlayerRepository.release()
+            super.onCleared()
+        }
     }
-
-    fun updatePlaybackSpeed(
-        speed: String,
-        index: Int,
-    ) {
-        _playbackSpeed.value = speed
-    }
-}

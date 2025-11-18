@@ -20,8 +20,10 @@ import androidx.media3.ui.PlayerView
 import com.example.media3ex.R
 import com.example.media3ex.audio.AudioFragment
 import com.example.media3ex.databinding.FragmentVideoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("ktlint:standard:backing-property-naming")
+@AndroidEntryPoint
 class VideoFragment : Fragment() {
     private var _binding: FragmentVideoBinding? = null
     private val binding get() = _binding!!

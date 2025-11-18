@@ -12,8 +12,10 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.media3ex.databinding.FragmentPlayerControlBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("ktlint:standard:backing-property-naming")
+@AndroidEntryPoint
 class PlayerControlFragment : Fragment() {
     private var _binding: FragmentPlayerControlBinding? = null
     private val binding get() = _binding!!
