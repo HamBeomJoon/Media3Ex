@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.session)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
