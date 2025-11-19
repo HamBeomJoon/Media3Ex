@@ -28,7 +28,7 @@ class AudioControlViewModel
         private val _playbackSpeed = MutableLiveData("1.0x")
         val playbackSpeed: LiveData<String> = _playbackSpeed
 
-        private val _currentSpeedIndex = MutableLiveData(1)
+        private val currentSpeedIndex = MutableLiveData(1)
 
         private val playerListener =
             object : Player.Listener {
@@ -65,12 +65,8 @@ class AudioControlViewModel
         ) {
             setPlaybackSpeedUseCase(speed)
             _playbackSpeed.value = "${speed}x"
-            _currentSpeedIndex.value = index
+            currentSpeedIndex.value = index
         }
-
-        fun getCurrentSpeedIndex(): Int = _currentSpeedIndex.value ?: 1
-
-        fun getPlayer(): Player? = audioPlayerRepository.getPlayer()
 
         override fun onCleared() {
             audioPlayerRepository.removeListener(playerListener)
