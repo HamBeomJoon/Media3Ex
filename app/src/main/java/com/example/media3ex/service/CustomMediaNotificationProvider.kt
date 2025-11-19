@@ -120,7 +120,7 @@ class CustomMediaNotificationProvider(
 
     private fun getAlbumArt(): Bitmap? =
         try {
-            BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher_round)
+            BitmapFactory.decodeResource(context.resources, R.mipmap.ic_logo)
         } catch (e: Exception) {
             null
         }

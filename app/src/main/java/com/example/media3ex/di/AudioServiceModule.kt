@@ -60,6 +60,7 @@ object AudioServiceModule {
         @ApplicationContext context: Context,
     ): CustomMediaNotificationProvider = CustomMediaNotificationProvider(context)
 
+    @UnstableApi
     @Provides
     @ServiceScoped
     fun providePlaybackSessionCallback(): PlaybackSessionCallback = PlaybackSessionCallback()
