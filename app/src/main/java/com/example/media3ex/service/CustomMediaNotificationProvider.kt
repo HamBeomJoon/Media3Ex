@@ -1,8 +1,6 @@
 package com.example.media3ex.service
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -46,37 +44,29 @@ class CustomMediaNotificationProvider(
                 .setLargeIcon(albumArt)
                 .setContentIntent(mediaSession.sessionActivity)
 
-        // ✅ customLayout의 버튼들을 순서대로 추가
-        customLayout.forEach { commandButton ->
-            commandButton.icon.let { icon ->
-                commandButton.sessionCommand?.let { sessionCommand ->
-                    // SessionCommand를 처리하는 PendingIntent 생성
-                    val intent =
-                        Intent(context, AudioPlaybackService::class.java).apply {
-                            action = sessionCommand.customAction
-                        }
-                    val pendingIntent =
-                        PendingIntent.getService(
-                            context,
-                            sessionCommand.customAction.hashCode(),
-                            intent,
-                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-                        )
-
-                    // 직접 Action 생성
-                    val action =
-                        NotificationCompat.Action
-                            .Builder(
-                                icon,
-                                commandButton.displayName,
-                                pendingIntent,
-                            ).build()
-
-                    builder.addAction(action)
-                }
+        // 1. 10초 뒤로
+        val skipBackwardButton =
+            customLayout.find {
+                it.sessionCommand?.customAction == PlaybackSessionCallback.ACTION_SKIP_BACKWARD
             }
+        val skipForwardButton =
+            customLayout.find {
+                it.sessionCommand?.customAction == PlaybackSessionCallback.ACTION_SKIP_FORWARD
+            }
+        skipBackwardButton?.let { button ->
+            // ⭐ actionFactory를 사용해서 SessionCommand 기반 액션 생성
+            val action =
+                actionFactory.createCustomAction(
+                    mediaSession,
+                    IconCompat.createWithResource(context, R.drawable.ic_back_ten),
+                    button.displayName,
+                    button.sessionCommand!!.customAction,
+                    Bundle.EMPTY,
+                )
+            builder.addAction(action)
         }
 
+        // 버튼 2: 재생/일시정지
         val playPauseAction =
             if (player.isPlaying) {
                 actionFactory.createMediaAction(
@@ -95,20 +85,24 @@ class CustomMediaNotificationProvider(
             }
         builder.addAction(playPauseAction)
 
-        // ✅ 총 액션 개수 계산 (customLayout + 재생/일시정지)
-        val totalActions = customLayout.size + 1
-        val compactViewIndices =
-            when {
-                totalActions >= 3 -> intArrayOf(0, 1, 2) // 10초뒤로, 재생/일시정지, 10초앞으로
-                totalActions == 2 -> intArrayOf(0, 1)
-                else -> intArrayOf(0)
-            }
+        // 버튼 3: 10초 앞으로
+        skipForwardButton?.let { button ->
+            val action =
+                actionFactory.createCustomAction(
+                    mediaSession,
+                    IconCompat.createWithResource(context, R.drawable.ic_forward_ten),
+                    button.displayName,
+                    button.sessionCommand!!.customAction,
+                    Bundle.EMPTY,
+                )
+            builder.addAction(action)
+        }
 
         builder
             .setStyle(
                 MediaStyleNotificationHelper
                     .MediaStyle(mediaSession)
-                    .setShowActionsInCompactView(*compactViewIndices),
+                    .setShowActionsInCompactView(0, 1, 2),
             ).setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
             .setOnlyAlertOnce(true)

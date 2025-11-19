@@ -9,6 +9,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.media3ex.presentation.MainActivity
 import com.example.media3ex.service.CustomMediaNotificationProvider
+import com.example.media3ex.service.PlaybackSessionCallback
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,4 +59,8 @@ object AudioServiceModule {
     fun provideCustomMediaNotificationProvider(
         @ApplicationContext context: Context,
     ): CustomMediaNotificationProvider = CustomMediaNotificationProvider(context)
+
+    @Provides
+    @ServiceScoped
+    fun providePlaybackSessionCallback(): PlaybackSessionCallback = PlaybackSessionCallback()
 }
