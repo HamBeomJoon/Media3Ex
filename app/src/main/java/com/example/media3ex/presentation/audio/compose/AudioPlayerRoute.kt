@@ -39,7 +39,7 @@ fun AudioPlayerRoute(viewModel: AudioControlViewModel = hiltViewModel()) {
     LaunchedEffect(controller) {
         controller?.let {
             viewModel.initialize(
-                mediaUri = "assets:///ComposeCoroutineScope.mp3",
+                mediaUri = "asset:///ComposeCoroutineScope.mp3",
                 title = "Audio Title",
                 artist = "Artist Name",
                 onReady = { },
@@ -123,7 +123,6 @@ fun AudioPlayerScreen(
             }
         }
 
-        // 하단 컨트롤
         AudioPlayerControls(
             isPlaying = isPlaying,
             currentPosition = currentPosition,

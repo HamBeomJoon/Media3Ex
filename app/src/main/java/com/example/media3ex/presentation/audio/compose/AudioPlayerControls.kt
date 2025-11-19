@@ -53,13 +53,11 @@ fun AudioPlayerControls(
                 .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // 시간 표시와 프로그레스바
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // 현재 위치
             Text(
                 text = formatTime(currentPosition),
                 color = Color(0xFFB0B0B0), // hearit_gray4
@@ -68,7 +66,6 @@ fun AudioPlayerControls(
                 modifier = Modifier.padding(start = 4.dp),
             )
 
-            // 전체 시간
             Text(
                 text = formatTime(duration),
                 color = Color(0xFFB0B0B0), // hearit_gray4
@@ -78,7 +75,6 @@ fun AudioPlayerControls(
             )
         }
 
-        // 프로그레스바
         Slider(
             value = if (duration > 0) currentPosition.toFloat() else 0f,
             onValueChange = { onSeekTo(it.toLong()) },
@@ -97,13 +93,11 @@ fun AudioPlayerControls(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // 컨트롤 버튼들
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // 되감기 버튼
             IconButton(
                 onClick = onRewindClick,
                 modifier = Modifier.size(36.dp),
@@ -116,14 +110,13 @@ fun AudioPlayerControls(
                 )
             }
 
-            // 재생/일시정지 버튼
             IconButton(
                 onClick = onPlayPauseClick,
                 modifier =
                     Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFF9C6FDE)), // hearit_purple3
+                        .background(Color(0xFF9C6FDE)),
             ) {
                 Icon(
                     imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
@@ -133,7 +126,6 @@ fun AudioPlayerControls(
                 )
             }
 
-            // 빨리감기 버튼
             IconButton(
                 onClick = onFastForwardClick,
                 modifier = Modifier.size(48.dp),
@@ -146,7 +138,6 @@ fun AudioPlayerControls(
                 )
             }
 
-            // 재생 속도 버튼
             Text(
                 text = playbackSpeed,
                 color = Color.White,
@@ -161,7 +152,6 @@ fun AudioPlayerControls(
     }
 }
 
-// 시간 포맷 함수 (밀리초 → MM:SS)
 private fun formatTime(timeMs: Long): String {
     val totalSeconds = timeMs / 1000
     val minutes = totalSeconds / 60
