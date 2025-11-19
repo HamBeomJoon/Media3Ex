@@ -1,11 +1,12 @@
 package com.example.media3ex.service
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -35,16 +36,46 @@ class CustomMediaNotificationProvider(
         val artist = mediaMetadata?.artist?.toString() ?: "알 수 없는 아티스트"
         val albumArt = getAlbumArt()
 
-        val skipBackwardAction =
-            actionFactory.createMediaAction(
-                mediaSession,
-                IconCompat.createWithResource(
-                    context,
-                    androidx.media3.session.R.drawable.media3_icon_skip_back_5,
-                ),
-                "5초 뒤로",
-                Player.COMMAND_SEEK_BACK,
-            )
+        val builder =
+            NotificationCompat
+                .Builder(context, CHANNEL_ID)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.ic_music_note)
+                .setContentTitle(title)
+                .setContentText(artist)
+                .setLargeIcon(albumArt)
+                .setContentIntent(mediaSession.sessionActivity)
+
+        // ✅ customLayout의 버튼들을 순서대로 추가
+        customLayout.forEach { commandButton ->
+            commandButton.icon.let { icon ->
+                commandButton.sessionCommand?.let { sessionCommand ->
+                    // SessionCommand를 처리하는 PendingIntent 생성
+                    val intent =
+                        Intent(context, AudioPlaybackService::class.java).apply {
+                            action = sessionCommand.customAction
+                        }
+                    val pendingIntent =
+                        PendingIntent.getService(
+                            context,
+                            sessionCommand.customAction.hashCode(),
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                        )
+
+                    // 직접 Action 생성
+                    val action =
+                        NotificationCompat.Action
+                            .Builder(
+                                icon,
+                                commandButton.displayName,
+                                pendingIntent,
+                            ).build()
+
+                    builder.addAction(action)
+                }
+            }
+        }
 
         val playPauseAction =
             if (player.isPlaying) {
@@ -62,44 +93,29 @@ class CustomMediaNotificationProvider(
                     Player.COMMAND_PLAY_PAUSE,
                 )
             }
+        builder.addAction(playPauseAction)
 
-        val skipForwardAction =
-            actionFactory.createMediaAction(
-                mediaSession,
-                IconCompat.createWithResource(
-                    context,
-                    androidx.media3.session.R.drawable.media3_icon_skip_forward_15,
-                ),
-                "15초 앞으로",
-                Player.COMMAND_SEEK_FORWARD,
-            )
+        // ✅ 총 액션 개수 계산 (customLayout + 재생/일시정지)
+        val totalActions = customLayout.size + 1
+        val compactViewIndices =
+            when {
+                totalActions >= 3 -> intArrayOf(0, 1, 2) // 10초뒤로, 재생/일시정지, 10초앞으로
+                totalActions == 2 -> intArrayOf(0, 1)
+                else -> intArrayOf(0)
+            }
 
-        val notification =
-            NotificationCompat
-                .Builder(context, CHANNEL_ID)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.ic_music_note)
-                .setContentTitle(title)
-                .setContentText(artist)
-                .setLargeIcon(albumArt)
-                .setContentIntent(mediaSession.sessionActivity)
-                .addAction(skipBackwardAction)
-                .addAction(playPauseAction)
-                .addAction(skipForwardAction)
-                .setStyle(
-                    MediaStyleNotificationHelper
-                        .MediaStyle(mediaSession)
-                        .setShowActionsInCompactView(0, 1, 2),
-                ).setColor(ContextCompat.getColor(context, R.color.hearit_purple1))
-                .setColorized(true)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
-                .setOnlyAlertOnce(true)
-                .setShowWhen(false)
-                .setOngoing(player.isPlaying)
-                .build()
+        builder
+            .setStyle(
+                MediaStyleNotificationHelper
+                    .MediaStyle(mediaSession)
+                    .setShowActionsInCompactView(*compactViewIndices),
+            ).setPriority(NotificationCompat.PRIORITY_LOW)
+            .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
+            .setOnlyAlertOnce(true)
+            .setShowWhen(false)
+            .setOngoing(player.isPlaying)
 
-        return MediaNotification(NOTIFICATION_ID, notification)
+        return MediaNotification(NOTIFICATION_ID, builder.build())
     }
 
     override fun handleCustomCommand(

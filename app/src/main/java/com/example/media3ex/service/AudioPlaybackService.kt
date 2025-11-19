@@ -15,6 +15,7 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
+import com.example.media3ex.R
 import com.example.media3ex.presentation.MainActivity
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
@@ -23,7 +24,6 @@ import com.google.common.util.concurrent.ListenableFuture
 @UnstableApi
 class AudioPlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
-    private lateinit var player: ExoPlayer
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
@@ -31,7 +31,7 @@ class AudioPlaybackService : MediaSessionService() {
 
         initializeNotificationChannel()
 
-        player =
+        val player =
             ExoPlayer.Builder(this).build().apply {
                 playWhenReady = false
             }
@@ -80,7 +80,7 @@ class AudioPlaybackService : MediaSessionService() {
                             when (customCommand.customAction) {
                                 ACTION_SKIP_BACKWARD -> {
                                     val newPosition =
-                                        (player.currentPosition - 5000).coerceAtLeast(0)
+                                        (player.currentPosition - 10000).coerceAtLeast(0)
                                     player.seekTo(newPosition)
                                     return Futures.immediateFuture(
                                         SessionResult(SessionResult.RESULT_SUCCESS),
@@ -89,7 +89,7 @@ class AudioPlaybackService : MediaSessionService() {
 
                                 ACTION_SKIP_FORWARD -> {
                                     val newPosition =
-                                        (player.currentPosition + 15000)
+                                        (player.currentPosition + 10000)
                                             .coerceAtMost(player.duration)
                                     player.seekTo(newPosition)
                                     return Futures.immediateFuture(
@@ -108,18 +108,18 @@ class AudioPlaybackService : MediaSessionService() {
         // ✅ 커스텀 버튼 레이아웃 설정
         val skipBackwardButton =
             CommandButton
-                .Builder(CommandButton.ICON_SKIP_BACK_5)
-                .setDisplayName("5초 뒤로")
+                .Builder(CommandButton.ICON_SKIP_BACK_10)
+                .setDisplayName("10초 뒤로")
                 .setSessionCommand(SKIP_BACKWARD_COMMAND)
-                .setCustomIconResId(androidx.media3.session.R.drawable.media3_icon_skip_back_5)
+                .setCustomIconResId(R.drawable.ic_back_ten)
                 .build()
 
         val skipForwardButton =
             CommandButton
-                .Builder(CommandButton.ICON_SKIP_FORWARD_15)
-                .setDisplayName("15초 앞으로")
+                .Builder(CommandButton.ICON_SKIP_FORWARD_10)
+                .setDisplayName("10초 앞으로")
                 .setSessionCommand(SKIP_FORWARD_COMMAND)
-                .setCustomIconResId(androidx.media3.session.R.drawable.media3_icon_skip_forward_15)
+                .setCustomIconResId(R.drawable.ic_forward_ten)
                 .build()
 
         mediaSession?.setCustomLayout(
